@@ -16,10 +16,12 @@ def craft(Message):
     dest = str(sys.argv[1])
     #converts Message from words to their respective decimal value in ASCII
     hmsg = ord(Message)
+	#Encrypts the message to make it harder to see
+	encryptedMsg = hmsg*4+5381
     #Array of random IP's to choose from as source IP address
     randIP = ["192.168.0.12", "192.168.0.124", "192.168.0.64",
               "192.168.0.88", "192.168.0.232"]
-    pkt = IP(src=random.choice(randIP), dst=dest)/TCP(sport=hmsg, dport=80, flags="C")
+    pkt = IP(src=random.choice(randIP), dst=dest)/TCP(sport=encryptedMsg, dport=80, flags="C")
     return pkt
 
 #Send the message to the server

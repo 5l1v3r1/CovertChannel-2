@@ -10,7 +10,9 @@ def parse(pkt):
     for i in randIP:
         if src_ip == i:
             msg = chr(pkt['TCP'].sport)
-            sys.stdout.write(msg)
+			decryptMsg = (msg-5381)/4
+			decryptedMsg = chr(decryptMsg)
+            sys.stdout.write(decryptedMsg)
             
 #Main
 sniff(filter="ip", prn=parse)
