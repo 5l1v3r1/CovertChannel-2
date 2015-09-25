@@ -33,7 +33,7 @@ def msgsend():
         for msg in message:
             craft_pkt = craft(msg)
             send(craft_pkt)
-            time.sleep(1)
+            time.sleep(random.randint(1,5))
 
 #Main
 usage()
