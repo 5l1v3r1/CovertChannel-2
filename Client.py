@@ -1,3 +1,29 @@
+##########################################################################################################
+#Created by: Elton Sia A00800541
+#
+#File: Client.py
+#The client asks for user input regarding what message they wish to send to the server
+#It loops through the message and grabbing each character and sending it to the craft method
+#the craft method first grabs the Server address from the user when they run the program as a command 
+#line argument, then when a character is received, each character is converted into its ASCII decimal 
+#value. After that, it is encrypted by multiplying by 4 then adding 5381 to it
+#An array of spoofed IP addresses is created and when creating the packet, the source IP is chosen 
+#randomly from the array. The source port will be the encrypted message and the destination port 
+#will always be 80. I chose 80 because the assumption is that the compromised machine is a web server so 
+#that it will make my covert messages less noticeable. I also set the flag to C which means Congestion 
+#Window Reduction which is rarely used but all it does is tell the server host to slow down the 
+#transfer of data. I then send it back to the msgsend method to send the packet to the server
+#I created a random timer between 1 and 5 before sending the packet so that it won't have a specific
+#time pattern.
+#
+#Functions:
+#usage()
+#craft(Message)
+#msgsend()
+#Main
+#
+##########################################################################################################
+
 import sys
 import time
 import random
@@ -27,12 +53,15 @@ def craft(Message):
 #Send the message to the server
 def msgsend():
     while True:
+		#User input for what message they want to send
         message = raw_input('Write your message: ')
         message += "\n"
         print "You will be sending: " + message
+		#Loop through each character and send it to the craft method before sending the packet to the server
         for msg in message:
             craft_pkt = craft(msg)
             send(craft_pkt)
+			#wait a random amount of time between 1 and 5 before sending the next packet
             time.sleep(random.randint(1,5))
 
 #Main
